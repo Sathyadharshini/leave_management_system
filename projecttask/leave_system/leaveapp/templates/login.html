@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-info">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <h2>Login</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+
+  {% if form.errors %}
+    <div class="alert alert-danger mt-3">
+      Invalid username or password. Please try again.
+    </div>
+  {% endif %}
+{% endblock %}

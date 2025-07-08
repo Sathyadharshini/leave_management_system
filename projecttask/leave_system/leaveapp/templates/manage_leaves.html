@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>All Leave Requests</h2>
+
+<form method="get" class="mb-3">
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-outline-primary">Filter</button>
+  <button name="export" value="csv" class="btn btn-outline-success">Export CSV</button>
+</form>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Employee</th>
+      <th>Type</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Reason</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for leave in leaves %}
+    <tr>
+      <td>{{ leave.employee.username }}</td>
+      <td>{{ leave.leave_type }}</td>
+      <td>{{ leave.start_date }}</td>
+      <td>{{ leave.end_date }}</td>
+      <td>{{ leave.reason }}</td>
+      <td>{{ leave.status }}</td>
+      <td>
+        {% if leave.status == 'Pending' %}
+          <a href="{% url 'approve_leave' leave.id %}" class="btn btn-success btn-sm">Approve</a>
+          <a href="{% url 'reject_leave' leave.id %}" class="btn btn-danger btn-sm">Reject</a>
+        {% else %}
+          {{ leave.status }}
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7">No leave requests found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>My Leave Requests</h2>
+
+<p><strong>Leave Balance:</strong> {{ request.user.employeeprofile.leave_balance }} days</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Reason</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for leave in leaves %}
+    <tr>
+      <td>{{ leave.leave_type }}</td>
+      <td>{{ leave.start_date }}</td>
+      <td>{{ leave.end_date }}</td>
+      <td>{{ leave.reason }}</td>
+      <td>{{ leave.status }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">No leave requests submitted yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
